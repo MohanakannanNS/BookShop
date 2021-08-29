@@ -1,0 +1,138 @@
+﻿@page
+@model RegisterModel
+@using Utility;
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<div class="py-4">
+    <div asp-validation-summary="All" class="text-danger">
+        <div class="form-group row">
+            <div class="col-8 offset-2">
+                <div class="card">
+                    <div class="card-body px-lg-5 pt-4">
+                        <form autocomplete="off" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <h3 class="text-success text-center py-4">
+                                @if (User.IsInRole(StaticDetails.Role_Admin) || User.IsInRole(StaticDetails.Role_Employee))
+                                {
+                                    <strong>Register a New User</strong>
+                                }
+                                else
+                                {
+                                    <strong>Sign Up</strong>
+                                }
+
+                            </h3>
+                            <hr />
+                            <div class="py-2">
+                                <input asp-for="Input.Name" class="form-control" placeholder="Name" />
+                                <span asp-validation-for="Input.Name" class="text-danger"></span>
+                            </div>
+                            <div class="py-2">
+                                <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="py-2 input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">+91</span>
+                                </div>
+                                <input asp-for="Input.PhoneNumber" type="text" class="form-control" placeholder="Phonenumber" />
+                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="py-2">
+                                <input asp-for="Input.StreetAddress" class="form-control" placeholder="StreetAddress" />
+                                <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+                            </div>
+                            <div class="py-2">
+                                <input asp-for="Input.City" class="form-control" placeholder="City" />
+                                <span asp-validation-for="Input.City" class="text-danger"></span>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col">
+                                    <input asp-for="Input.State" class="form-control" placeholder="State" />
+                                    <span asp-validation-for="Input.State" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <input asp-for="Input.PostalCode" class="form-control" placeholder="PinCode" />
+                                    <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col">
+                                    <input asp-for="Input.Password" type="password" placeholder="Password" class="form-control" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <input asp-for="Input.ConfirmPassword" type="password" placeholder="ConfirmPassword" class="form-control" />
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            @if (User.IsInRole(StaticDetails.Role_Admin))
+                            {
+                                <div class="form-group">
+                                    <label asp-for="Input.Role"></label>
+                                    @Html.DropDownListFor(i => i.Input.Role, Model.Input.RoleList, "-Select a Role",
+                                    new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.CompanyId"></label>
+                                    @Html.DropDownListFor(i => i.Input.CompanyId, Model.Input.CompanyList, "-Select a Company",
+                                    new { @class = "form-control" })
+                                </div>
+                            }
+                            <div class="py-2">
+                                <button type="submit" class="btn btn-success form-control">Register</button>
+                            </div>
+                        </form>
+                        @if (!User.IsInRole(StaticDetails.Role_Admin) || !User.IsInRole(StaticDetails.Role_Employee))
+                        {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <p>By clicking <em>Register</em> you agree to our <a href="" target="_blank"></a>terms of service</p>
+                                <hr />
+
+                                <div class="row">
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins)
+                                        {
+
+
+                                        <div class="col-6">
+                                            @if (provider.Name.ToLower().Contains("facebook"))
+                                            {
+
+                                                <button type="submit" class="btn btn-primary form-control" name="provider" 
+                                                        value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                    <i class="fab fa-facebook"></i> @provider.DisplayName</button>
+                                            }
+                                            else
+                                            {
+                                                @if (provider.Name.ToLower().Contains("google"))
+                                                {
+                                                    <button type="submit" class="btn btn-danger form-control" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                     <i class="fab fa-google"></i> @provider.DisplayName</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn btn-danger form-control" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                                }
+                                            }
+                                            
+                                        </div>
+
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

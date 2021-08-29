@@ -1,0 +1,47 @@
+﻿@model BookShop.Models.Category
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Create Category";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @if (Model.Id != 0)
+    {
+        title = "Edit Category";
+    }
+    <div class="border p-3 col-12">
+        <div class="row border-bottom">
+            <h2 class="text-primary">@title</h2>
+        </div>
+        <div class="col-8 pt-4">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input type="text" asp-for="Name" class="form-control">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+
+                @if (Model.Id != 0)
+                {
+                    <partial name="_UpdateAndBackToList" model="@Model.Id" />
+                }
+                else
+                {
+                    <partial name="_CreateAndBackToList" />
+                }
+            </div>
+        </div>
+    </div>
+    
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

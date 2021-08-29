@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BookShop.Models.Product>
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row pb-3">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:solid 1px #070707;border-radius:5px;">
+                    <div class="card" style="border:0px;">
+                        <img class="card-img-top rounded" src="@item.ImageURL" >
+                        <div class="pl-1">
+                            <p class="card-title h5">@item.Title</p>
+                            <p class="card-title text-primary">by <b>@item.Author</b></p>
+                        </div>
+                        <div class="">
+                            <p>List Price: <b><strike>@item.ListPrice</strike></b></p>
+                            <p>As low as: <b>@item.Price100</b></p>
+                        </div>
+                        <div>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    </div>

@@ -1,0 +1,47 @@
+﻿@model BookShop.Models.CoverType
+
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Create Cover Type";
+}
+<br />
+<form method="post">
+    @if (Model.Id != 0)
+    {
+        title = "Edit Cover Type";
+    }
+    <div class="border p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12 border-bottom">
+            <h3 class="text-primary">@title</h3>
+        </div>        
+        <div class="col-8 p-2">
+            <div class="row">
+               <div class="col-4"><label asp-for="Name"></label></div>
+               <div class="col-8">
+                <input asp-for="Name" class="form-control"/>
+                   <span asp-validation-for="Name" class="text-danger"></span>
+               </div>
+            </div>
+            <br />
+            <div class="row">
+                @if (Model.Id != 0)
+            {
+                <partial name="_UpdateAndBackToList" model="@Model.Id" />
+            }
+            else
+            {
+                <partial name="_CreateAndBackToList" />
+            }
+            </div>
+        </div>
+
+    </div>
+    
+    
+</form>
+
+@section Scripts{ 
+<partial name="_ValidationScriptsPartial" />
+}
+
