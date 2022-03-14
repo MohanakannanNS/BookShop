@@ -10,7 +10,10 @@ namespace BookShop.DataAccess.Repositories.IRepositories
 {
     public class CompanyRepository:Repository<Company>,ICompanyRepository
     {
-        private readonly ApplicationDbContext _db;
+        //test      
+        private readonly ApplicationDbContext _db; 
+
+        private const float pi= 3.14f;
         public CompanyRepository(ApplicationDbContext db):base(db)
         {
             _db = db;
